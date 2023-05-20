@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+</head>
+<body>
+
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            margin: auto;
+            margin-top: 20px;
+            width: 80%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        #container{
+            height: auto;
+            width: auto;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 5px 2px 4px;
+            background: lightgrey;
+            padding-top: 15px;
+            border-radius: 20px;
+
+
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+
+        }
+        
+        #start{
+            background-color: white;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-left: 15px;
+
+        }
+        #reset{
+            background-color: blue;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            color: white;
+            margin-left: 15px;
+        }
+    
+        p{
+            font-size: 120px;
+        }
+            
+    </style>
+    
+    <div id="container">
+        <span><p id="hour">00</p></span>
+        <span><p class="semicolon">:</p></span>
+        <span><p id="minutes">00</p></span>
+        <span><p class="semicolon">:</p></span>
+        <span><p id="seconds">00</p></span>
+      
+        <button id="start" class="btn">Start</button>
+        <button id="reset" class="btn">Reset</button>
+      
+        <h6 id="timer">Timer 1 (00:15:00) edit</h6>
+      
+      <audio id="beep" preload="auto">
+        <source src="beep.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+    <script>
+        // Get the timer elements
+        const hourElement = document.getElementById("hour");
+        const minuteElement = document.getElementById("minutes");
+        const secondElement = document.getElementById("seconds");
+      
+        // Set the initial time
+        let hours = 0;
+        let minutes = 15;
+        let seconds = 0;
+      
+        // Update the timer display
+        function updateTimerDisplay() {
+          hourElement.textContent = hours.toString().padStart(2, "0");
+          minuteElement.textContent = minutes.toString().padStart(2, "0");
+          secondElement.textContent = seconds.toString().padStart(2, "0");
+        }
+      
+        // Countdown function
+        function countdown() {
+          if (seconds > 0) {
+            seconds--;
+          } else {
+            if (minutes > 0) {
+              minutes--;
+              seconds = 59;
+            } else {
+              if (hours > 0) {
+                hours--;
+                minutes = 59;
+                seconds = 59;
+              } else {
+                // Countdown complete, play beep sound
+                const beepSound = document.getElementById("beep");
+                beepSound.play();
+                return;
+              }
+            }
+          }
+      
+          updateTimerDisplay();
+        }
+      
+        // Start button click event
+        document.getElementById("start").addEventListener("click", function () {
+          setInterval(countdown, 1000); // Start the countdown
+        });
+      
+        // Reset button click event
+        document.getElementById("reset").addEventListener("click", function () {
+          hours = 0;
+          minutes = 15;
+          seconds = 0;
+          updateTimerDisplay();
+        });
+      </script>
+      
+</body>
+</html>
